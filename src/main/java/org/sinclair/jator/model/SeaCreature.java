@@ -16,7 +16,7 @@ public class SeaCreature {
 
     private static int nextID;
 
-    int color;
+    protected int color;
     private final Sea sea;
     private SeaPosition pos;
     private int age;
@@ -107,12 +107,12 @@ public class SeaCreature {
         this.age = age;
     }
 
-    private void died() {
+    protected void died() {
         this.sea.emptyCell(this.pos);
         this.alive = false;
     }
 
-    private boolean spawn(List<SeaPosition> free) {
+    protected boolean spawn(List<SeaPosition> free) {
         /*
         If old enough, and there is free space, spawn.
          */
@@ -131,7 +131,7 @@ public class SeaCreature {
         }
     }
 
-    private void move(List<SeaPosition> empty) {
+    protected void move(List<SeaPosition> empty) {
         /*
         Move to a new position if it is empty.
         Sea.setCe11() returns true if a creature is placed there,
@@ -161,7 +161,7 @@ public class SeaCreature {
         }
     }
 
-    private SeaPosition randomPosition(List<SeaPosition> positions) {
+    protected SeaPosition randomPosition(List<SeaPosition> positions) {
         int numberOfPositions = positions.size();
         if (numberOfPositions > 0) {
             return positions.get(this.random.nextInt(numberOfPositions));
