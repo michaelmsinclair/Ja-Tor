@@ -18,4 +18,9 @@ public class Fish extends SeaCreature {
         this.color = 0xff00;
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s %s", "Fish", super.toString());
+    }
+
 }
