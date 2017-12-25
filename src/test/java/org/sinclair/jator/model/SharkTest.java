@@ -36,7 +36,7 @@ public class SharkTest {
         Sea aSea = new Sea(10, 10, aRandom);
         this.sea = aSea;
         this.spawnAge = 5;
-        this.parent = 0;
+        this.parent = 29;
         this.starveAge = 3;
         this.fishSpawnAge = 2;
         this.fishStarveAge = 99;
@@ -94,10 +94,10 @@ public class SharkTest {
     @Test
     public void testTurn() {
         System.out.println("turn");
-//        Shark instance = null;
-//        instance.turn();
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
+        Shark instance = null;
+        instance.turn();
+         TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
@@ -106,12 +106,15 @@ public class SharkTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Shark instance = null;
-        String expResult = "";
-//        String result = instance.toString();
-//        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
+        SeaPosition position = new SeaPosition(7, 7, this.sea);
+        SeaCreature instance;
+        instance = new Shark(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
+        instance.setCreatureID(2525);
+        System.out.println(instance);
+        String expResult = "Shark 0000002525 Parent: 0000000029 (7,7) Alive: true Age: 0 Spawn in: 5 Starve in: 3";
+        System.out.println(expResult);
+        String result = instance.toString();
+        assertEquals(expResult, result);
     }
 
 }
