@@ -22,6 +22,9 @@ public class SeaCreatureTest {
 
     private final Sea sea;
     private final Random random;
+    private final int spawnAge;
+    private final int parent;
+    private final int starveAge;
 
     public SeaCreatureTest() {
         Random aRandom;
@@ -30,6 +33,9 @@ public class SeaCreatureTest {
         this.random = aRandom;
         Sea aSea = new Sea(10, 10, aRandom);
         this.sea = aSea;
+        this.spawnAge = 5;
+        this.parent = 7;
+        this.starveAge = 99;
     }
 
     @BeforeClass
@@ -56,7 +62,7 @@ public class SeaCreatureTest {
         System.out.println("getPosition");
         SeaPosition newPos = new SeaPosition(0, 0, this.sea);
         System.out.println("SeaPosition: " + newPos);
-        SeaCreature instance = this.sea.addCreature(newPos, "Fish", 3, 0, 99);
+        SeaCreature instance = new SeaCreature(this.sea, newPos, this.spawnAge, this.starveAge, this.random, this.parent);
         System.out.println(instance);
         SeaPosition expResult = newPos;
         SeaPosition result = instance.getPosition();
@@ -71,7 +77,7 @@ public class SeaCreatureTest {
         System.out.println("setPosition");
         SeaPosition originalPosition = new SeaPosition(0, 1, this.sea);
         SeaPosition newPosition = new SeaPosition(0, 2, this.sea);
-        SeaCreature instance = this.sea.addCreature(originalPosition, "Fish", 3, 0, 99);
+        SeaCreature instance = new SeaCreature(this.sea, originalPosition, this.spawnAge, this.starveAge, this.random, this.parent);
         instance.setPosition(newPosition);
         assertEquals(newPosition.toString(), instance.getPosition().toString());
     }
@@ -83,7 +89,7 @@ public class SeaCreatureTest {
     public void testGetCreatureID() {
         System.out.println("getCreatureID");
         SeaPosition position = new SeaPosition(9, 9, this.sea);
-        SeaCreature instance = this.sea.addCreature(position, "Fish", 3, 0, 99);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
         int expResult = 48;
         instance.setCreatureID(expResult);
         int result = instance.getCreatureID();
@@ -98,7 +104,7 @@ public class SeaCreatureTest {
         System.out.println("setCreatureID");
         int creatureID = 42;
         SeaPosition originalPosition = new SeaPosition(0, 3, this.sea);
-        SeaCreature instance = this.sea.addCreature(originalPosition, "Fish", 3, 0, 99);
+        SeaCreature instance = new SeaCreature(this.sea, originalPosition, this.spawnAge, this.starveAge, this.random, this.parent);
         instance.setCreatureID(creatureID);
         assertEquals(creatureID, instance.getCreatureID());
     }
@@ -111,7 +117,7 @@ public class SeaCreatureTest {
         System.out.println("setNextID");
         int nextID = 23;
         SeaPosition position = new SeaPosition(1, 1, this.sea);
-        SeaCreature instance = this.sea.addCreature(position, "Fish", 3, 0, 99);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
         instance.setNextID(nextID);
         assertEquals(23, instance.getNextID());
     }
@@ -123,7 +129,7 @@ public class SeaCreatureTest {
     public void testGetNextID() {
         System.out.println("getNextID");
         SeaPosition position = new SeaPosition(2, 5, this.sea);
-        SeaCreature instance = this.sea.addCreature(position, "Fish", 3, 0, 99);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
         int expResult = 32;
         instance.setNextID(32);
         int result = instance.getNextID();
@@ -137,8 +143,8 @@ public class SeaCreatureTest {
     public void testGetColor() {
         System.out.println("getColor");
         SeaPosition position = new SeaPosition(2, 6, this.sea);
-        SeaCreature instance = this.sea.addCreature(position, "Fish", 3, 0, 99);
-        int expResult = 0xff00;
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
+        int expResult = 0x000000;
         int result = instance.getColor();
         assertEquals(expResult, result);
     }
@@ -150,7 +156,7 @@ public class SeaCreatureTest {
     public void testIsAlive() {
         System.out.println("isAlive");
         SeaPosition position = new SeaPosition(2, 7, this.sea);
-        SeaCreature instance = this.sea.addCreature(position, "Fish", 3, 0, 99);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
         boolean expResult = true;
         boolean result = instance.isAlive();
         assertEquals(expResult, result);
@@ -163,7 +169,7 @@ public class SeaCreatureTest {
     public void testGetAge() {
         System.out.println("getAge");
         SeaPosition position = new SeaPosition(3, 1, this.sea);
-        SeaCreature instance = this.sea.addCreature(position, "Fish", 3, 0, 99);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
         int expResult = 0;
         int result = instance.getAge();
         assertEquals(expResult, result);
@@ -177,7 +183,7 @@ public class SeaCreatureTest {
         System.out.println("setAge");
         int age = 37;
         SeaPosition position = new SeaPosition(3, 2, this.sea);
-        SeaCreature instance = this.sea.addCreature(position, "Fish", 3, 0, 99);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
         instance.setAge(37);
         assertEquals(age, instance.getAge());
     }
@@ -189,7 +195,7 @@ public class SeaCreatureTest {
     public void testGetTotalAge() {
         System.out.println("getTotalAge");
         SeaPosition position = new SeaPosition(3, 3, this.sea);
-        SeaCreature instance = this.sea.addCreature(position, "Fish", 3, 0, 99);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
         // birth age = 0
         int expResult = 0;
         int result = instance.getTotalAge();
@@ -210,7 +216,7 @@ public class SeaCreatureTest {
         System.out.println("setTotalAge");
         int totalAge = 41;
         SeaPosition position = new SeaPosition(3, 4, this.sea);
-        SeaCreature instance = this.sea.addCreature(position, "Fish", 3, 0, 99);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
         instance.setTotalAge(totalAge);
         assertEquals(totalAge, instance.getTotalAge());
 
@@ -224,7 +230,7 @@ public class SeaCreatureTest {
         System.out.println("getStarve");
         int expResult = 73;
         SeaPosition position = new SeaPosition(4, 3, this.sea);
-        SeaCreature instance = this.sea.addCreature(position, "Fish", 3, 0, expResult);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
         instance.setStarve(expResult);
         int result = instance.getStarve();
         assertEquals(expResult, result);
@@ -237,8 +243,8 @@ public class SeaCreatureTest {
     public void testSetStarve() {
         System.out.println("setStarve");
         int starve = 23;
-        SeaPosition position = new SeaPosition(4, 3, this.sea);
-        SeaCreature instance = this.sea.addCreature(position, "Fish", 3, 0, starve);
+        SeaPosition position = new SeaPosition(4, 5, this.sea);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
         instance.setStarve(starve);
         assertEquals(starve, instance.getStarve());
     }
@@ -250,11 +256,56 @@ public class SeaCreatureTest {
     public void testToString() {
         System.out.println("toString");
         SeaPosition position = new SeaPosition(7, 7, this.sea);
-        SeaCreature instance = this.sea.addCreature(position, "Fish", 42, 7, 51);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
         instance.setCreatureID(4242);
-        String expResult = "0000004242 Parent: 0000000007 (7,7) Alive: true Age: 0 Spawn in: 42 Starve in: 51";
+        String expResult = "0000004242 Parent: 0000000007 (7,7) Alive: true Age: 0 Spawn in: 5 Starve in: 99";
         String result = instance.toString();
         assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of turn method, of class SeaCreature.
+     */
+    @Test
+    public void testTurn() {
+        System.out.println("turn");
+        SeaPosition position = new SeaPosition(7, 8, this.sea);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
+        instance.setCreatureID(4242);
+        for (int i = 0; i < 10; i++) {
+            System.out.println(instance);
+            instance.turn();
+        }
+        System.out.println(instance);
+        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getSpawnAge method, of class SeaCreature.
+     */
+    @Test
+    public void testGetSpawnAge() {
+        System.out.println("getSpawnAge");
+        SeaPosition position = new SeaPosition(8, 3, this.sea);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
+        int expResult = this.spawnAge;
+        int result = instance.getSpawnAge();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of setSpawnAge method, of class SeaCreature.
+     */
+    @Test
+    public void testSetSpawnAge() {
+        System.out.println("setSpawnAge");
+        int spawnAge = 57;
+        SeaPosition position = new SeaPosition(8, 3, this.sea);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
+        instance.setSpawnAge(spawnAge);
+        int result = instance.getSpawnAge();
+        assertEquals(spawnAge, result);
     }
 
 }
