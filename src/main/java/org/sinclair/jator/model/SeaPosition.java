@@ -14,9 +14,9 @@ import java.util.List;
  */
 public class SeaPosition implements Comparable {
 
-    private int x;
-    private int y;
-    private Sea sea;
+    int x;
+    int y;
+    Sea sea;
 
     public SeaPosition(int x, int y, Sea sea) {
         this.x = x;
