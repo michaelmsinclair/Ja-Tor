@@ -5,6 +5,7 @@
  */
 package org.sinclair.jator.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import org.junit.After;
@@ -68,13 +69,13 @@ public class SharkTest {
         System.out.println("Before eating");
         SeaPosition position = new SeaPosition(5, 5, this.sea);
         Fish aFish = new Fish(this.sea, position, this.fishSpawnAge, this.fishStarveAge, this.random, this.parent);
-        System.out.println(aFish);
-        position = new SeaPosition(5, 6, this.sea);
         this.sea.setCell(aFish.getPosition(), aFish);
+        System.out.println(aFish);
 
+        position = new SeaPosition(5, 6, this.sea);
         Shark aShark = new Shark(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
-        System.out.println(aShark);
         this.sea.setCell(aShark.getPosition(), aShark);
+        System.out.println(aShark);
         List<SeaCreature> occupied = aShark.pos.getAdjacentCreatures();
 
         boolean expResult = true;
@@ -94,10 +95,32 @@ public class SharkTest {
     @Test
     public void testTurn() {
         System.out.println("turn");
-        Shark instance = null;
-        instance.turn();
-//         TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        System.out.println("Before turns");
+        Fish aFish;
+        SeaPosition position;
+            List<SeaCreature> fishes;
+        fishes = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            position = new SeaPosition(5, i, this.sea);
+            aFish = new Fish(this.sea, position, this.fishSpawnAge, this.fishStarveAge, this.random, this.parent);
+            this.sea.setCell(aFish.getPosition(), aFish);
+            fishes.add(aFish);
+            System.out.println(aFish);
+
+        }
+        position = new SeaPosition(5, fishes.size(), this.sea);
+        Shark aShark = new Shark(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
+        this.sea.setCell(aShark.getPosition(), aShark);
+        System.out.println(aShark);
+
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < fishes.size(); j++) {
+                System.out.println(String.format("%3d %3d %s", i, j, fishes.get(j)));
+            }
+            aShark.turn();
+            System.out.println(String.format("%3d    %s", i, aShark));
+        }
     }
 
     /**
