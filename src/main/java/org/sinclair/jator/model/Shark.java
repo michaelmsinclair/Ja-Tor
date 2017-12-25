@@ -93,4 +93,9 @@ public class Shark extends SeaCreature {
             }
         }
     }
+    @Override
+    public String toString() {
+        return String.format("%s %s", "Shark", super.toString());
+    }
+
 }
