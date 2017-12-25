@@ -14,20 +14,20 @@ import java.util.Random;
  */
 public class SeaCreature {
 
-    private static int nextID;
+    static int nextID;
 
-    protected int color;
-    private final Sea sea;
-    private SeaPosition pos;
-    private int age;
-    private int totalAge;
-    private final int spawnAge;
-    private int starve;
-    private final int starveAge; // set but not used by basic creature
-    private boolean alive;
-    private final Random random;
-    private int creatureID;
-    private final int parent;
+    int color;
+    final Sea sea;
+    SeaPosition pos;
+    int age;
+    int totalAge;
+    int spawnAge;
+    int starve;
+    final int starveAge; // set but not used by basic creature
+    boolean alive;
+    final Random random;
+    int creatureID;
+    final int parent;
 
     /**
      *
@@ -107,12 +107,15 @@ public class SeaCreature {
         this.age = age;
     }
 
-    protected void died() {
+    /**
+     *
+     */
+    void died() {
         this.sea.emptyCell(this.pos);
         this.alive = false;
     }
 
-    protected boolean spawn(List<SeaPosition> free) {
+    boolean spawn(List<SeaPosition> free) {
         /*
         If old enough, and there is free space, spawn.
          */
@@ -131,7 +134,7 @@ public class SeaCreature {
         }
     }
 
-    protected void move(List<SeaPosition> empty) {
+    void move(List<SeaPosition> empty) {
         /*
         Move to a new position if it is empty.
         Sea.setCe11() returns true if a creature is placed there,
@@ -161,7 +164,7 @@ public class SeaCreature {
         }
     }
 
-    protected SeaPosition randomPosition(List<SeaPosition> positions) {
+    SeaPosition randomPosition(List<SeaPosition> positions) {
         int numberOfPositions = positions.size();
         if (numberOfPositions > 0) {
             return positions.get(this.random.nextInt(numberOfPositions));
@@ -177,6 +180,18 @@ public class SeaCreature {
 
     public void setTotalAge(int totalAge) {
         this.totalAge = totalAge;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int getSpawnAge() {
+        return this.spawnAge;
+    }
+
+    public void setSpawnAge(int spawnAge) {
+        this.spawnAge = spawnAge;
     }
 
     /**
