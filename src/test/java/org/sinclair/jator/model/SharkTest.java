@@ -96,7 +96,7 @@ public class SharkTest {
         System.out.println("turn");
         Shark instance = null;
         instance.turn();
-         TODO review the generated test code and remove the default call to fail.
+//         TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
