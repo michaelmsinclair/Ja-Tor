@@ -15,7 +15,7 @@ import java.util.Random;
  */
 public class Sea {
 
-    private List<SeaCreature> creatures = new ArrayList<>();
+    private List<SeaCreature> creatures;
     private int maxX;
     private int maxY;
     private SeaCreature sea[][];
@@ -24,6 +24,7 @@ public class Sea {
     private Random random;
 
     public Sea(int x, int y, Random random) {
+        this.creatures = new ArrayList<>();
         this.maxX = x;
         this.maxY = y;
         this.random = random;
