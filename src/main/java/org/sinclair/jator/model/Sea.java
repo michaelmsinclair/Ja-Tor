@@ -6,6 +6,8 @@
 package org.sinclair.jator.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -41,6 +43,20 @@ public class Sea {
 
     public SeaCreature getCell(SeaPosition position) {
         return this.sea[position.getX()][position.getY()];
+    }
+
+    public boolean setCell(SeaPosition position, SeaCreature c) {
+        /*
+        Put creature c in cell (x,y) of the sea, if the cell is empty
+        Return True if possible and false if not.
+         */
+        boolean result = false;
+
+        if (this.isCellEmpty(position)) {
+            this.sea[position.getX()][position.getY()] = c;
+            result = true;
+        }
+        return result;
     }
 
     public void emptyCell(SeaPosition position) {
@@ -90,17 +106,49 @@ public class Sea {
         return creature;
     }
 
-    public boolean setCell(SeaPosition position, SeaCreature c) {
+    public void cleanCreatures() {
         /*
-        Put creature c in cell (x,y) of the sea, if the cell is empty
-        Return True if possible and false if not.
+        Remove the dead creatures from the list of creatures.
+        Certify counts.
          */
-        boolean result = false;
-
-        if (this.isCellEmpty(position)) {
-            this.sea[position.getX()][position.getY()] = c;
-            result = true;
+        this.sharks = 0;
+        this.fishes = 0;
+        List<SeaCreature> aliveCreatures = new ArrayList<>();
+        Collection<SeaCreature> collectedCreatures = this.creatures;
+        Iterator<SeaCreature> iterateCreatures = collectedCreatures.iterator();
+        while (iterateCreatures.hasNext()) {
+            SeaCreature c = iterateCreatures.next();
+            if (c.isAlive()) {
+                aliveCreatures.add(c);
+                switch (c.getClass().getSimpleName()) {
+                    case "Shark":
+                        this.sharks++;
+                        break;
+                    case "Fish":
+                        this.fishes++;
+                        break;
+                }
+            }
         }
-        return result;
+        
+        this.creatures = aliveCreatures;
     }
+
+    private int getSharks() {
+        return this.sharks;
+    }
+
+    private int getFishes() {
+        return this.fishes;
+    }
+    
+    @Override
+    public String toString() {
+                sharks = this.getSharks();
+        fishes = this.getFishes();
+        int cells = this.maxX * this.maxY;
+        int empty = cells - sharks - fishes;
+        return String.format("Sharks: %d Fishes: %d Empty: %d", sharks, fishes, empty);
+    }
+
 }
