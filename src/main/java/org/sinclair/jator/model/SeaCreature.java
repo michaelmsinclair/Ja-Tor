@@ -17,6 +17,7 @@ public class SeaCreature {
     static int nextID;
 
     int color;
+    String shape = ".";
     final Sea sea;
     SeaPosition pos;
     int age;
@@ -69,6 +70,10 @@ public class SeaCreature {
      */
     public void setPosition(SeaPosition position) {
         this.pos = position;
+    }
+    
+    public String getShape() {
+        return this.shape;
     }
 
     public int getCreatureID() {
@@ -142,10 +147,7 @@ public class SeaCreature {
          */
         SeaPosition newPos;
         newPos = this.randomPosition(empty);
-        if (this.sea.setCell(newPos, this)) {
-            this.sea.emptyCell(this.pos);
-            this.pos = newPos;
-        }
+        this.sea.moveCreature(this, newPos);
     }
 
     public void turn() {
