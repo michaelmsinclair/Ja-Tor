@@ -27,6 +27,7 @@ public class Shark extends SeaCreature {
     public Shark(Sea sea, SeaPosition pos, int spawnAge, int starveAge, Random random, int parent) {
         super(sea, pos, spawnAge, starveAge, random, parent);
         this.color = 0xff0000;
+        this.shape = "S";
     }
 
     protected boolean eat(List<SeaCreature> occupied) {
@@ -70,7 +71,7 @@ public class Shark extends SeaCreature {
             this.totalAge++;
             this.starve++;
             if (this.starve > this.starveAge) {
-                this.died();
+                this.sea.removeCreature(this);
             } else {
                 List<SeaCreature> occupied = this.pos.getAdjacentCreatures();
                 List<SeaPosition> empty = this.pos.getAdjacentFree();
