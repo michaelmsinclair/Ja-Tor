@@ -20,7 +20,7 @@ public class Sea {
     private List<SeaCreature> creatures;
     private int maxX;
     private int maxY;
-    private SeaCreature sea[][];
+    private SeaCreature cells[][];
     private int sharks;
     private int fishes;
     private Random random;
@@ -30,7 +30,7 @@ public class Sea {
         this.maxX = x;
         this.maxY = y;
         this.random = random;
-        this.sea = new SeaCreature[x][y];
+        this.cells = new SeaCreature[x][y];
     }
 
     public int getMaxX() {
@@ -42,7 +42,11 @@ public class Sea {
     }
 
     public SeaCreature getCell(SeaPosition position) {
-        return this.sea[position.getX()][position.getY()];
+        return this.cells[position.getX()][position.getY()];
+    }
+
+    public SeaCreature getCell(int x, int y) {
+        return this.cells[x][y];
     }
 
     public boolean setCell(SeaPosition position, SeaCreature c) {
@@ -53,14 +57,14 @@ public class Sea {
         boolean result = false;
 
         if (this.isCellEmpty(position)) {
-            this.sea[position.getX()][position.getY()] = c;
+            this.cells[position.getX()][position.getY()] = c;
             result = true;
         }
         return result;
     }
 
     public void emptyCell(SeaPosition position) {
-        this.sea[position.getX()][position.getY()] = null;
+        this.cells[position.getX()][position.getY()] = null;
     }
 
     public boolean isCellEmpty(SeaPosition position) {
@@ -71,8 +75,8 @@ public class Sea {
         result = true;
         int x = position.getX();
         int y = position.getY();
-        if (this.sea[x][y] != null) {
-            result = !this.sea[x][y].isAlive();
+        if (this.cells[x][y] != null) {
+            result = !this.cells[x][y].isAlive();
         }
         return result;
     }
@@ -94,8 +98,10 @@ public class Sea {
 
         if ("Shark".equals(newCreature)) {
             creature = new Shark(this, position, spawn, starve, this.random, parent);
+            this.sharks++;
         } else if ("Fish".equals(newCreature)) {
             creature = new Fish(this, position, spawn, starve, this.random, parent);
+            this.fishes++;
         }
 
         if (creature != null && this.setCell(position, creature)) {
@@ -104,6 +110,28 @@ public class Sea {
             creature = null;
         }
         return creature;
+    }
+
+    public void moveCreature(SeaCreature c, SeaPosition newPos) {
+        if (this.isCellEmpty(newPos)) {
+            this.setCell(newPos, c);
+            this.emptyCell(c.getPosition());
+            c.setPosition(newPos);
+        } else if (!this.getCell(newPos).isAlive()) {
+            this.setCell(newPos, c);
+            this.emptyCell(c.getPosition());
+            c.setPosition(newPos);
+        }
+    }
+
+    public void removeCreature(SeaCreature c) {
+        c.died();
+        this.emptyCell(c.getPosition());
+        if ("Shark".equals(c.getClass().getSimpleName())) {
+            this.sharks--;
+        } else if ("Fish".equals(c.getClass().getSimpleName())) {
+            this.fishes--;
+        }
     }
 
     public void cleanCreatures() {
@@ -130,7 +158,7 @@ public class Sea {
                 }
             }
         }
-        
+
         this.creatures = aliveCreatures;
     }
 
@@ -141,13 +169,22 @@ public class Sea {
     private int getFishes() {
         return this.fishes;
     }
-    
+
+    public void takeTurns() {
+        int nCreatures = this.creatures.size();
+        for (int i = 0; i < nCreatures; i++) {
+            SeaCreature c = creatures.get(i);
+            c.turn();
+        }
+    }
+
     @Override
     public String toString() {
-                sharks = this.getSharks();
+        sharks = this.getSharks();
         fishes = this.getFishes();
-        int cells = this.maxX * this.maxY;
-        int empty = cells - sharks - fishes;
+        int nCells;
+        nCells = this.maxX * this.maxY;
+        int empty = nCells - sharks - fishes;
         return String.format("Sharks: %d Fishes: %d Empty: %d", sharks, fishes, empty);
     }
 
