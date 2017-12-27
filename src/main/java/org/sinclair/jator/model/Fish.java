@@ -16,6 +16,7 @@ public class Fish extends SeaCreature {
     public Fish(Sea sea, SeaPosition pos, int spawnAge, int starveAge, Random random, int parent) {
         super(sea, pos, spawnAge, starveAge, random, parent);
         this.color = 0xff00;
+        this.shape = "f";
     }
 
     @Override
