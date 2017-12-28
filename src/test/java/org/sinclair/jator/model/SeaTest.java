@@ -105,9 +105,16 @@ public class SeaTest {
     @Test
     public void testIsCellEmpty() {
         System.out.println("isCellEmpty");
+        int spawn = 3;
+        int parent = 9;
+        int starve = 5;
+        String newCreature = "Shark";
+        
         Sea instance = new Sea(7, 11, SeaTest.random);
         SeaPosition position = new SeaPosition(3,5, instance);
-        SeaCreature c = new SeaCreature(instance, position, 3, 5, SeaTest.random, 0);
+        SeaCreature c;
+        c = instance.addCreature(position, newCreature, spawn, parent, starve);
+
         boolean expResult = false;
         boolean result = instance.isCellEmpty(position);
         assertEquals(expResult, result);
@@ -124,30 +131,30 @@ public class SeaTest {
     @Test
     public void testAddCreature() {
         System.out.println("addCreature");
-        SeaPosition position = null;
-        String newCreature = "";
-        int spawn = 0;
-        int parent = 0;
-        int starve = 0;
-        Sea instance = null;
-        SeaCreature expResult = null;
-        SeaCreature result = instance.addCreature(position, newCreature, spawn, parent, starve);
+        int spawn = 3;
+        int parent = 9;
+        int starve = 5;
+        String newCreature = "Shark";
+        
+        Sea instance = new Sea(11, 13, SeaTest.random);
+        SeaPosition position = new SeaPosition(7,11, instance);
+        SeaCreature c = instance.addCreature(position, newCreature, spawn, parent, starve);
+        SeaCreature expResult = c;
+        SeaCreature result = instance.getCell(position);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of cleanCreatures method, of class Sea.
      */
-    @Test
-    public void testCleanCreatures() {
-        System.out.println("cleanCreatures");
-        Sea instance = null;
-        instance.cleanCreatures();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testCleanCreatures() {
+//        System.out.println("cleanCreatures");
+//        Sea instance = null;
+//        instance.cleanCreatures();
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
 
     /**
      * Test of toString method, of class Sea.
@@ -155,12 +162,24 @@ public class SeaTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        Sea instance = null;
-        String expResult = "";
+        int spawn = 3;
+        int starve = 5;
+        int parent = 0;
+        int x = 13;
+        int y = 17;
+        int nCells = x * y;
+              
+        Sea instance = new Sea(13, 17, SeaTest.random);
+        SeaPosition position = new SeaPosition(3,5, instance);
+        SeaCreature c = instance.addCreature(position, "Shark", spawn, parent, starve);
+
+        position = new SeaPosition(5,3, instance);
+        c = instance.addCreature(position, "Fish", spawn, parent, starve);
+
+        int empty = nCells - 2;
+        String expResult = String.format("Sharks: 1 Fishes: 1 Empty: %d", empty);
         String result = instance.toString();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -176,8 +195,6 @@ public class SeaTest {
         SeaCreature expResult = addCreature;
         SeaCreature result = instance.getCell(position);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
     }
 
     /**
@@ -204,12 +221,20 @@ public class SeaTest {
     @Test
     public void testMoveCreature() {
         System.out.println("moveCreature");
-        SeaCreature c = null;
-        SeaPosition newPos = null;
-        Sea instance = null;
+        int spawn = 5;
+        int starve = 3;
+        int parent = 42;
+        
+        Sea instance = new Sea(13, 17, SeaTest.random);
+        SeaPosition position = new SeaPosition(3,5, instance);
+        SeaCreature c;
+        c = instance.addCreature(position, "Shark", spawn, parent, starve);
+
+        SeaPosition newPos = new SeaPosition(5,3, instance);
         instance.moveCreature(c, newPos);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String expResult = "(5,3)";
+        String result = String.format("%s", c.getPosition());
+        assertEquals(expResult, result);
     }
 
     /**
@@ -218,23 +243,31 @@ public class SeaTest {
     @Test
     public void testRemoveCreature() {
         System.out.println("removeCreature");
-        SeaCreature c = null;
-        Sea instance = null;
+        int spawn = 5;
+        int starve = 3;
+        int parent = 42;
+        
+        Sea instance = new Sea(13, 17, SeaTest.random);
+        SeaPosition position = new SeaPosition(3,5, instance);
+        SeaCreature c;
+        c = instance.addCreature(position, "Shark", spawn, parent, starve);
         instance.removeCreature(c);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        SeaCreature expResult = null;
+        SeaCreature result = instance.getCell(position);
+        assertEquals(expResult, result);
     }
 
     /**
      * Test of takeTurns method, of class Sea.
      */
-    @Test
-    public void testTakeTurns() {
-        System.out.println("takeTurns");
-        Sea instance = null;
-        instance.takeTurns();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testTakeTurns() {
+//        System.out.println("takeTurns");
+//        Sea instance = null;
+//        instance.takeTurns();
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
     
 }
