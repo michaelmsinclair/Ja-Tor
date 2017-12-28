@@ -308,4 +308,97 @@ public class SeaCreatureTest {
         assertEquals(spawnAge, result);
     }
 
+    /**
+     * Test of getShape method, of class SeaCreature.
+     */
+    @Test
+    public void testGetShape() {
+        System.out.println("getShape");
+        SeaPosition position = new SeaPosition(8, 4, this.sea);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
+        String expResult = ".";
+        String result = instance.getShape();
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of died method, of class SeaCreature.
+     */
+    @Test
+    public void testDied() {
+        System.out.println("died");
+        SeaPosition position = new SeaPosition(8, 4, this.sea);
+        SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
+        instance.died();
+        boolean expResult = false;
+        assertEquals(expResult, instance.isAlive());
+    }
+
+    /**
+     * Test of spawn method, of class SeaCreature.
+     */
+    @Test
+    public void testSpawn() {
+        System.out.println("spawn");
+        int spawn = 1;
+        int starve = - 99;
+        int parent = 0;
+        SeaPosition position = new SeaPosition(8, 4, this.sea);
+        SeaCreature instance = new SeaCreature(this.sea, position, spawn, starve, this.random, parent);
+        instance.setAge(5); // must be equal or older than spawn age.
+        List<SeaPosition> free = instance.getPosition().getAdjacentFree();
+        System.out.println("spawn free: " + free);
+        boolean expResult = true;
+        int limit = 10;
+        int i = 0;
+        boolean result = instance.spawn(free); // because spawing is random with
+        while (!result && i < limit) {         // p=0.30, must try a few spawns
+            result = instance.spawn(free);     // to get one to occur.
+            i++;
+        }
+        System.out.println("spawn tried " + i + " times");
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of move method, of class SeaCreature.
+     */
+    @Test
+    public void testMove() {
+        System.out.println("move");
+        List<SeaPosition> empty = null;
+        SeaCreature instance = null;
+        instance.move(empty);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of randomPosition method, of class SeaCreature.
+     */
+    @Test
+    public void testRandomPosition() {
+        System.out.println("randomPosition");
+
+        int spawn = 1;
+        int starve = - 99;
+        int parent = 0;
+        SeaPosition position = new SeaPosition(8, 6, this.sea);
+        SeaCreature instance = new SeaCreature(this.sea, position, spawn, starve, this.random, parent);
+        List<SeaPosition> free = instance.getPosition().getAdjacentFree();
+        System.out.println("randomPosition free: " + free);
+        String expResult = "(8,5)";
+        int limit = 20;
+        int i = 0;
+        String result = String.format("%s", instance.randomPosition(free));  // because choosing a random position
+        System.out.println("randomPosition expResult " + expResult + " result " + result);
+        while (!expResult.equals(result) && i < limit) {                     // is random, we must make more than
+            result = String.format("%s", instance.randomPosition(free));     // one try.
+            System.out.println("randomPosition expResult " + expResult + " result " + result);
+            i++;
+        }
+        System.out.println("randomPosition tried " + i + " times");
+        assertEquals(expResult,result);
+    }
+
 }
