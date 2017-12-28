@@ -85,6 +85,12 @@ public class SeaTest {
         SeaCreature expResult = addCreature;
         SeaCreature result = instance.getCell(position);
         assertEquals(expResult, result);
+
+        position = new SeaPosition(5,3, instance);
+        addCreature = instance.addCreature(position, "Fish", 3, 0, 5);
+        expResult = addCreature;
+        result = instance.getCell(3,5);
+        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
     }
