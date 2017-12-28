@@ -277,8 +277,6 @@ public class SeaCreatureTest {
             instance.turn();
         }
         System.out.println(instance);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
     }
 
     /**
@@ -366,11 +364,29 @@ public class SeaCreatureTest {
     @Test
     public void testMove() {
         System.out.println("move");
-        List<SeaPosition> empty = null;
-        SeaCreature instance = null;
+
+        int spawn = 1;
+        int starve = 99;
+        int parent = 0;
+        SeaPosition position = new SeaPosition(8, 7, this.sea);
+        SeaCreature instance = new SeaCreature(this.sea, position, spawn, starve, this.random, parent);
+        List<SeaPosition> empty = instance.getPosition().getAdjacentFree();
+        System.out.println("move free: " + empty);
+        position = new SeaPosition(8, 8, this.sea);
+        String expResult = "(8,8)";
+        int limit = 40;
+        int i = 0;
         instance.move(empty);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String result = String.format("%s", instance.getPosition());  // because choosing a random position
+        System.out.println("move expResult " + expResult + " result " + result);
+        while (!expResult.equals(result) && i < limit) {                     // is random, we must make more than
+            instance.move(empty);
+            result = String.format("%s", instance.getPosition());     // one try.
+            System.out.println("move expResult " + expResult + " result " + result);
+            i++;
+        }
+        System.out.println("move tried " + i + " times");
+        assertEquals(expResult,result);
     }
 
     /**
@@ -381,7 +397,7 @@ public class SeaCreatureTest {
         System.out.println("randomPosition");
 
         int spawn = 1;
-        int starve = - 99;
+        int starve = 99;
         int parent = 0;
         SeaPosition position = new SeaPosition(8, 6, this.sea);
         SeaCreature instance = new SeaCreature(this.sea, position, spawn, starve, this.random, parent);
