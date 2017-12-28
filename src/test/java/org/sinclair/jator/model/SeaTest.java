@@ -19,10 +19,11 @@ import static org.junit.Assert.*;
  */
 public class SeaTest {
     
-    static Random random;
+    private static Random random;
     
     public SeaTest() {
-        random.setSeed(42);
+        SeaTest.random = new Random();
+        SeaTest.random.setSeed(42);
     }
     
     @BeforeClass
@@ -53,8 +54,6 @@ public class SeaTest {
         int expResult = 7;
         int result = instance.getMaxX();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
     }
 
     /**
@@ -68,31 +67,6 @@ public class SeaTest {
         int expResult = 11;
         int result = instance.getMaxY();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getCell method, of class Sea.
-     */
-    @Test
-    public void testGetCell() {
-        System.out.println("getCell");
-        Sea instance;
-        instance = new Sea(7, 11, SeaTest.random);
-        SeaPosition position = new SeaPosition(3,5, instance);
-        SeaCreature addCreature = instance.addCreature(position, "Shark", 3, 0, 5);
-        SeaCreature expResult = addCreature;
-        SeaCreature result = instance.getCell(position);
-        assertEquals(expResult, result);
-
-        position = new SeaPosition(5,3, instance);
-        addCreature = instance.addCreature(position, "Fish", 3, 0, 5);
-        expResult = addCreature;
-        result = instance.getCell(3,5);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
     }
 
     /**
@@ -101,14 +75,13 @@ public class SeaTest {
     @Test
     public void testSetCell() {
         System.out.println("setCell");
-        SeaPosition position = null;
-        SeaCreature c = null;
-        Sea instance = null;
-        boolean expResult = false;
+        Sea instance = new Sea(7, 11, SeaTest.random);
+        SeaPosition position = new SeaPosition(3,5, instance);
+        SeaCreature c = new SeaCreature(instance, position, 3, 5, SeaTest.random, 0);
+
+        boolean expResult = true;
         boolean result = instance.setCell(position, c);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -117,11 +90,13 @@ public class SeaTest {
     @Test
     public void testEmptyCell() {
         System.out.println("emptyCell");
-        SeaPosition position = null;
-        Sea instance = null;
+        Sea instance = new Sea(7, 11, SeaTest.random);
+        SeaPosition position = new SeaPosition(3,5, instance);
+        SeaCreature c = new SeaCreature(instance, position, 3, 5, SeaTest.random, 0);
+
+        SeaCreature expResult = null;
         instance.emptyCell(position);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, instance.getCell(position));
     }
 
     /**
@@ -130,13 +105,17 @@ public class SeaTest {
     @Test
     public void testIsCellEmpty() {
         System.out.println("isCellEmpty");
-        SeaPosition position = null;
-        Sea instance = null;
+        Sea instance = new Sea(7, 11, SeaTest.random);
+        SeaPosition position = new SeaPosition(3,5, instance);
+        SeaCreature c = new SeaCreature(instance, position, 3, 5, SeaTest.random, 0);
         boolean expResult = false;
         boolean result = instance.isCellEmpty(position);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        position = new SeaPosition(5, 3, instance);
+        expResult = true;
+        result = instance.isCellEmpty(position);
+        assertEquals(expResult, result);
     }
 
     /**
@@ -190,13 +169,15 @@ public class SeaTest {
     @Test
     public void testGetCell_SeaPosition() {
         System.out.println("getCell");
-        SeaPosition position = null;
-        Sea instance = null;
-        SeaCreature expResult = null;
+        Sea instance;
+        instance = new Sea(7, 11, SeaTest.random);
+        SeaPosition position = new SeaPosition(3,5, instance);
+        SeaCreature addCreature = instance.addCreature(position, "Shark", 3, 0, 5);
+        SeaCreature expResult = addCreature;
         SeaCreature result = instance.getCell(position);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        fail("The test case is a prototype.");
     }
 
     /**
@@ -205,14 +186,16 @@ public class SeaTest {
     @Test
     public void testGetCell_int_int() {
         System.out.println("getCell");
-        int x = 0;
-        int y = 0;
-        Sea instance = null;
-        SeaCreature expResult = null;
-        SeaCreature result = instance.getCell(x, y);
+        int x = 5;
+        int y = 3;
+
+        Sea instance;
+        instance = new Sea(7, 11, SeaTest.random);
+        SeaPosition position = new SeaPosition(5,3, instance);
+        SeaCreature addCreature = instance.addCreature(position, "Fish", 3, 0, 5);
+        SeaCreature expResult = addCreature;
+        SeaCreature result = instance.getCell(x,y);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
