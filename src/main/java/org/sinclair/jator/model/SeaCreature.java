@@ -182,7 +182,7 @@ public class SeaCreature {
         }
     }
 
-    private SeaPosition randomPosition(List<SeaPosition> positions) {
+    protected SeaPosition randomPosition(List<SeaPosition> positions) {
         int numberOfPositions = positions.size();
         if (numberOfPositions > 0) {
             return positions.get(this.random.nextInt(numberOfPositions));
