@@ -149,7 +149,7 @@ public class SeaCreatureTest {
         System.out.println("getColor");
         SeaPosition position = new SeaPosition(2, 6, this.sea);
         SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent, this.color, this.shape);
-        int expResult = 0x000000;
+        int expResult = this.color;
         int result = instance.getColor();
         assertEquals(expResult, result);
     }
