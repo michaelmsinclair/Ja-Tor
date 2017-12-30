@@ -77,7 +77,7 @@ public class SeaTest {
         System.out.println("setCell");
         Sea instance = new Sea(7, 11, SeaTest.random);
         SeaPosition position = new SeaPosition(3,5, instance);
-        SeaCreature c = new SeaCreature(instance, position, 3, 5, SeaTest.random, 0);
+        SeaCreature c = new SeaCreature(instance, position, 3, 5, SeaTest.random, 0, 0x000000, ".");
 
         boolean expResult = true;
         boolean result = instance.setCell(position, c);
@@ -92,7 +92,8 @@ public class SeaTest {
         System.out.println("emptyCell");
         Sea instance = new Sea(7, 11, SeaTest.random);
         SeaPosition position = new SeaPosition(3,5, instance);
-        SeaCreature c = new SeaCreature(instance, position, 3, 5, SeaTest.random, 0);
+        SeaCreature c;
+        c = new SeaCreature(instance, position, 3, 5, SeaTest.random, 0, 0x000000, ".");
 
         SeaCreature expResult = null;
         instance.emptyCell(position);
