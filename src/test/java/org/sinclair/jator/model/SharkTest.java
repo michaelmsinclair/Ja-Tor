@@ -76,7 +76,8 @@ public class SharkTest {
         Shark aShark = new Shark(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent);
         this.sea.setCell(aShark.getPosition(), aShark);
         System.out.println(aShark);
-        List<SeaCreature> occupied = aShark.pos.getAdjacentCreatures();
+        List<SeaCreature> occupied;
+        occupied = aShark.getPosition().getAdjacentCreatures();
 
         boolean expResult = true;
         System.out.println(occupied);
