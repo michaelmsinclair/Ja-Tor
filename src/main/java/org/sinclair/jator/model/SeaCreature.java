@@ -14,21 +14,24 @@ import java.util.Random;
  */
 public class SeaCreature {
 
-    static int nextID;
+    /**
+     *
+     */
+    protected static int nextID = 1;
 
-    int color;
-    String shape = ".";
-    final Sea sea;
-    SeaPosition pos;
-    int age;
-    int totalAge;
-    int spawnAge;
-    int starve;
-    final int starveAge; // set but not used by basic creature
-    boolean alive;
-    final Random random;
-    int creatureID;
-    final int parent;
+    private final int color;
+    private final String shape;
+    private final Sea sea;
+    private SeaPosition pos;
+    private int age;
+    private int totalAge;
+    private int spawnAge;
+    private int starve;
+    private final int starveAge; // set but not used by basic creature
+    private boolean alive;
+    private final Random random;
+    private int creatureID;
+    private final int parent;
 
     /**
      *
@@ -40,7 +43,7 @@ public class SeaCreature {
      * @param random
      * @param parent
      */
-    public SeaCreature(Sea sea, SeaPosition pos, int spawnAge, int starveAge, Random random, int parent) {
+    public SeaCreature(Sea sea, SeaPosition pos, int spawnAge, int starveAge, Random random, int parent, int color, String shape) {
         this.sea = sea;
         this.pos = pos;
         this.age = 0;
@@ -51,9 +54,13 @@ public class SeaCreature {
         this.alive = true;
         this.random = random;
         this.parent = parent;
-
-        this.color = 0x000000;
+        this.color = color;
+        this.shape = shape;
         this.creatureID = SeaCreature.nextID++;
+    }
+
+    public Sea getSea() {
+        return this.sea;
     }
 
     /**
@@ -64,14 +71,20 @@ public class SeaCreature {
         return this.pos;
     }
 
+    protected void ageCreature() {
+        this.age++;
+        this.totalAge++;
+        this.starve++;
+    }
+
     /**
      *
      * @param position
      */
-    public void setPosition(SeaPosition position) {
+    protected void setPosition(SeaPosition position) {
         this.pos = position;
     }
-    
+
     public String getShape() {
         return this.shape;
     }
@@ -80,11 +93,11 @@ public class SeaCreature {
         return this.creatureID;
     }
 
-    public void setCreatureID(int creatureID) {
+    protected void setCreatureID(int creatureID) {
         this.creatureID = creatureID;
     }
 
-    public void setNextID(int nextID) {
+    protected void setNextID(int nextID) {
         SeaCreature.nextID = nextID;
     }
 
@@ -108,19 +121,19 @@ public class SeaCreature {
      *
      * @param age
      */
-    public void setAge(int age) {
+    protected void setAge(int age) {
         this.age = age;
     }
 
     /**
      *
      */
-    void died() {
+    protected void died() {
         this.sea.emptyCell(this.pos);
         this.alive = false;
     }
 
-    boolean spawn(List<SeaPosition> free) {
+    protected boolean spawn(List<SeaPosition> free) {
         /*
         If old enough, and there is free space, spawn.
          */
@@ -139,7 +152,7 @@ public class SeaCreature {
         }
     }
 
-    void move(List<SeaPosition> empty) {
+    protected void move(List<SeaPosition> empty) {
         /*
         Move to a new position if it is empty.
         Sea.setCe11() returns true if a creature is placed there,
@@ -150,7 +163,10 @@ public class SeaCreature {
         this.sea.moveCreature(this, newPos);
     }
 
-    public void turn() {
+    /**
+     *
+     */
+    protected void turn() {
         /*
         The basic creature spawns, or moves if it cannot spawn.
          */
@@ -166,7 +182,7 @@ public class SeaCreature {
         }
     }
 
-    SeaPosition randomPosition(List<SeaPosition> positions) {
+    private SeaPosition randomPosition(List<SeaPosition> positions) {
         int numberOfPositions = positions.size();
         if (numberOfPositions > 0) {
             return positions.get(this.random.nextInt(numberOfPositions));
@@ -180,7 +196,7 @@ public class SeaCreature {
         return this.totalAge;
     }
 
-    public void setTotalAge(int totalAge) {
+    protected void setTotalAge(int totalAge) {
         this.totalAge = totalAge;
     }
 
@@ -192,7 +208,7 @@ public class SeaCreature {
         return this.spawnAge;
     }
 
-    public void setSpawnAge(int spawnAge) {
+    protected void setSpawnAge(int spawnAge) {
         this.spawnAge = spawnAge;
     }
 
@@ -204,8 +220,16 @@ public class SeaCreature {
         return this.starve;
     }
 
-    public void setStarve(int starve) {
+    protected void setStarve(int starve) {
         this.starve = starve;
+    }
+
+    public int getStarveAge() {
+        return this.starveAge;
+    }
+    
+    public Random getRandom() {
+        return this.random;
     }
 
     @Override
