@@ -14,6 +14,8 @@ import java.util.Random;
  * @author michael
  */
 public class Shark extends SeaCreature {
+        static int color = 0xff0000; // can't be arsed to make this better. 
+        static String shape = "S";   // putting color and shape here for now.
 
     /**
      *
@@ -25,9 +27,7 @@ public class Shark extends SeaCreature {
      * @param parent
      */
     public Shark(Sea sea, SeaPosition pos, int spawnAge, int starveAge, Random random, int parent) {
-        super(sea, pos, spawnAge, starveAge, random, parent);
-        this.color = 0xff0000;
-        this.shape = "S";
+        super(sea, pos, spawnAge, starveAge, random, parent, Shark.color, Shark.shape);
     }
 
     protected boolean eat(List<SeaCreature> occupied) {
@@ -45,13 +45,13 @@ public class Shark extends SeaCreature {
         }
         if (fishes.size() > 0) {
             SeaCreature sharkFood;
-            sharkFood = fishes.get(this.random.nextInt(fishes.size()));
+            sharkFood = fishes.get(this.getRandom().nextInt(fishes.size()));
             sharkFood.died();
-            this.sea.emptyCell(sharkFood.getPosition());
+            this.getSea().emptyCell(sharkFood.getPosition());
             SeaPosition oldPos = this.getPosition();
-            if (this.sea.setCell(sharkFood.getPosition(), this)) {
+            if (this.getSea().setCell(sharkFood.getPosition(), this)) {
                 this.setPosition(sharkFood.getPosition());
-                this.sea.emptyCell(oldPos);
+                this.getSea().emptyCell(oldPos);
                 this.setStarve(0);
                 result = true;
             }
@@ -66,19 +66,17 @@ public class Shark extends SeaCreature {
         after eating spawn (if possible). If there are no fish nearby, and
         spawning is possible, spawn, otherwise move.
          */
-        if (this.alive) {
-            this.age++;
-            this.totalAge++;
-            this.starve++;
-            if (this.starve > this.starveAge) {
-                this.sea.removeCreature(this);
+        if (this.isAlive()) {
+            this.ageCreature();
+            if (this.getStarve() > this.getStarveAge()) {
+                this.getSea().removeCreature(this);
             } else {
-                List<SeaCreature> occupied = this.pos.getAdjacentCreatures();
-                List<SeaPosition> empty = this.pos.getAdjacentFree();
+                List<SeaCreature> occupied = this.getPosition().getAdjacentCreatures();
+                List<SeaPosition> empty = this.getPosition().getAdjacentFree();
                 if (occupied.size() > 0) {
                     List<SeaPosition> wasHere;
                     wasHere = new ArrayList<>();
-                    wasHere.add(this.pos); // save in case spawning
+                    wasHere.add(this.getPosition()); // save in case spawning
                     if (this.eat(occupied)) {
                         this.spawn(wasHere);
                     } else if (empty.size() > 0) {
