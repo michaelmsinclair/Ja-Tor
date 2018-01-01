@@ -46,15 +46,10 @@ public class Shark extends SeaCreature {
         if (fishes.size() > 0) {
             SeaCreature sharkFood;
             sharkFood = fishes.get(this.getRandom().nextInt(fishes.size()));
-            sharkFood.died();
-            this.getSea().emptyCell(sharkFood.getPosition());
-            SeaPosition oldPos = this.getPosition();
-            if (this.getSea().setCell(sharkFood.getPosition(), this)) {
-                this.setPosition(sharkFood.getPosition());
-                this.getSea().emptyCell(oldPos);
+            this.getSea().removeCreature(sharkFood);
+            this.getSea().moveCreature(this, sharkFood.getPosition());
                 this.setStarve(0);
                 result = true;
-            }
         }
         return result;
     }
