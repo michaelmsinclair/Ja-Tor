@@ -97,18 +97,21 @@ public class Sea {
         creature = null;
 
         if ("Shark".equals(newCreature)) {
-            creature = new Shark(this, position, spawn, starve, this.random, parent);
-            this.sharks++;
+            SeaCreature sCreature = new Shark(this, position, spawn, starve, this.random, parent);
+            if (sCreature != null && this.setCell(position, sCreature)) {
+                this.creatures.add(sCreature);
+                this.sharks++;
+                creature = sCreature;
+            }
         } else if ("Fish".equals(newCreature)) {
-            creature = new Fish(this, position, spawn, starve, this.random, parent);
-            this.fishes++;
+            SeaCreature fCreature = new Fish(this, position, spawn, starve, this.random, parent);
+            if (fCreature != null && this.setCell(position, fCreature)) {
+                this.creatures.add(fCreature);
+                this.fishes++;
+                creature = fCreature;
+            }
         }
 
-        if (creature != null && this.setCell(position, creature)) {
-            this.creatures.add(creature);
-        } else {
-            creature = null;
-        }
         return creature;
     }
 
@@ -134,32 +137,27 @@ public class Sea {
         }
     }
 
-    public void cleanCreatures() {
+    /**
+     *
+     * @return
+     */
+    public List<SeaCreature> getCreatures() {
+        return this.creatures;
+    }
+
+    private void cleanCreatures() {
         /*
         Remove the dead creatures from the list of creatures.
         Certify counts.
          */
-        this.sharks = 0;
-        this.fishes = 0;
-        List<SeaCreature> aliveCreatures = new ArrayList<>();
         Collection<SeaCreature> collectedCreatures = this.creatures;
         Iterator<SeaCreature> iterateCreatures = collectedCreatures.iterator();
         while (iterateCreatures.hasNext()) {
             SeaCreature c = iterateCreatures.next();
-            if (c.isAlive()) {
-                aliveCreatures.add(c);
-                switch (c.getClass().getSimpleName()) {
-                    case "Shark":
-                        this.sharks++;
-                        break;
-                    case "Fish":
-                        this.fishes++;
-                        break;
-                }
+            if (!c.isAlive()) {
+                iterateCreatures.remove();
             }
         }
-
-        this.creatures = aliveCreatures;
     }
 
     private int getSharks() {
@@ -176,9 +174,11 @@ public class Sea {
             SeaCreature c = creatures.get(i);
             c.turn();
         }
+        this.cleanCreatures();
     }
 
     @Override
+
     public String toString() {
         sharks = this.getSharks();
         fishes = this.getFishes();
