@@ -17,7 +17,7 @@ public class SeaCreature {
     /**
      *
      */
-    protected static int nextID = 1;
+    private static int nextID = 1;
 
     private final int color;
     private final String shape;
@@ -37,11 +37,12 @@ public class SeaCreature {
      *
      * @param sea
      * @param pos
-     * @param traditional
      * @param spawnAge
      * @param starveAge
      * @param random
      * @param parent
+     * @param color
+     * @param shape
      */
     public SeaCreature(Sea sea, SeaPosition pos, int spawnAge, int starveAge, Random random, int parent, int color, String shape) {
         this.sea = sea;
