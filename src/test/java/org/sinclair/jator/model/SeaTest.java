@@ -6,6 +6,7 @@
 package org.sinclair.jator.model;
 
 import java.util.Random;
+import javafx.scene.paint.Color;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -20,10 +21,12 @@ import static org.junit.Assert.*;
 public class SeaTest {
     
     private static Random random;
+    private static Color color;
     
     public SeaTest() {
         SeaTest.random = new Random();
         SeaTest.random.setSeed(42);
+        SeaTest.color = Color.WHITESMOKE;
     }
     
     @BeforeClass
@@ -77,7 +80,7 @@ public class SeaTest {
         System.out.println("setCell");
         Sea instance = new Sea(7, 11, SeaTest.random);
         SeaPosition position = new SeaPosition(3,5, instance);
-        SeaCreature c = new SeaCreature(instance, position, 3, 5, SeaTest.random, 0, 0x000000, ".");
+        SeaCreature c = new SeaCreature(instance, position, 3, 5, SeaTest.random, 0, SeaTest.color, ".");
 
         boolean expResult = true;
         boolean result = instance.setCell(position, c);
@@ -93,7 +96,7 @@ public class SeaTest {
         Sea instance = new Sea(7, 11, SeaTest.random);
         SeaPosition position = new SeaPosition(3,5, instance);
         SeaCreature c;
-        c = new SeaCreature(instance, position, 3, 5, SeaTest.random, 0, 0x000000, ".");
+        c = new SeaCreature(instance, position, 3, 5, SeaTest.random, 0, SeaTest.color, ".");
 
         SeaCreature expResult = null;
         instance.emptyCell(position);
