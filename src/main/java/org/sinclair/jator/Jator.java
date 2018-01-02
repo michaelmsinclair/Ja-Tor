@@ -5,19 +5,31 @@
  */
 package org.sinclair.jator;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import static javafx.application.Application.launch;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.sinclair.jator.model.Sea;
 import org.sinclair.jator.model.SeaCreature;
 import org.sinclair.jator.model.SeaPosition;
-import org.sinclair.jator.view.SeaView;
 
 /**
  *
  * @author michael
  */
-public class Jator {
+public class Jator extends Application {
 
     static Random random;
     static Sea sea;
@@ -27,15 +39,21 @@ public class Jator {
     static int fishStarve;
     static int sharkSpawn;
     static int sharkStarve;
+    static boolean allCreatures;
+    static int cellsize;
 
-  private static void Jator() {
+    private static void Jator() {
         Jator.random = new Random();
-        Jator.x = 10;
-        Jator.y = 10;
-        Jator.fishSpawn = 5;
+        Jator.x = 320;
+        Jator.y = 180;
+        Jator.x = 160;
+        Jator.y = 90;
+        Jator.fishSpawn = 2;
         Jator.fishStarve = 99;
-        Jator.sharkSpawn = 99;
-        Jator.sharkStarve = 99;
+        Jator.sharkSpawn = 5;
+        Jator.sharkStarve = 3;
+        Jator.allCreatures = false;
+        Jator.cellsize = 5;
 
     }
 
@@ -45,20 +63,7 @@ public class Jator {
     public static void main(String[] args) {
         Jator();
         generateSea();
-        boolean simulating = true;
-        SeaView seaView = new SeaView(Jator.sea);
-        int ticks = 0;
-        while (simulating) {
-            seaView.display();
-            Jator.sea.takeTurns();
-            System.out.println(String.format("%5d Simulating %s", ticks, Jator.sea));
-            ticks++;
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Jator.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        launch();
     }
 
     static void generateSea() {
@@ -66,10 +71,8 @@ public class Jator {
         allCells = Jator.x * Jator.y;
         int sharks;
         sharks = allCells / 10;
-//        sharks = 0;
         int fishes;
         fishes = allCells / 4;
-//        fishes = 1;
 
         Jator.sea = new Sea(Jator.x, Jator.y, Jator.random);
 
@@ -104,5 +107,57 @@ public class Jator {
                 }
             }
         }
+    }
+
+    @Override
+    public void start(Stage jatorStage) {
+        long X = Jator.sea.getMaxX() * Jator.cellsize;
+        long Y = Jator.sea.getMaxY() * Jator.cellsize;
+        jatorStage.setTitle("Ja-Tor");
+        Group root;
+        root = new Group();
+        Scene scene;
+        scene = new Scene(root, Color.BLUE);
+        Canvas canvas = new Canvas(X, Y);
+        root.getChildren().add( canvas );
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        jatorStage.setScene(scene);
+
+        Timeline gameLoop = new Timeline();
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+
+        KeyFrame kf;
+        kf = new KeyFrame(
+//                Duration.seconds(0.084), // 12 FPS
+                Duration.seconds(0.042), // 24 FPS
+//                Duration.seconds(0.021), // 48 FPS
+//                Duration.seconds(0.017), // 60 FPS
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent ae) {
+                        // Clear the canvas
+                        gc.clearRect(0, 0, X, Y);
+                        
+                        Collection<SeaCreature> collectedCreatures = Jator.sea.getCreatures();
+                        Iterator<SeaCreature> iterateCreatures = collectedCreatures.iterator();
+                        while (iterateCreatures.hasNext()) {
+                            SeaCreature c = iterateCreatures.next();
+//                            System.out.println(c);
+                            if (c.isAlive()) {
+                                gc.setFill(c.getColor());
+                                gc.fillRect(c.getPosition().getX()*Jator.cellsize, c.getPosition().getY()*Jator.cellsize, Jator.cellsize, Jator.cellsize);
+                            }
+                        }
+                        Jator.sea.takeTurns();
+//                        System.out.println(Jator.sea);
+                    }
+                });
+
+        gameLoop.getKeyFrames().add(kf);
+        gameLoop.play();
+
+        jatorStage.show();
+
     }
 }
