@@ -6,6 +6,7 @@
 package org.sinclair.jator.model;
 
 import java.util.Random;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -13,7 +14,7 @@ import java.util.Random;
  */
 public class Fish extends SeaCreature {
     
-    static int color = 0xff00;
+    static Color color = Color.GREEN;
     static String shape = "f";
 
     public Fish(Sea sea, SeaPosition pos, int spawnAge, int starveAge, Random random, int parent) {
