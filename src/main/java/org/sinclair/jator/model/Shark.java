@@ -8,13 +8,14 @@ package org.sinclair.jator.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import javafx.scene.paint.Color;
 
 /**
  *
  * @author michael
  */
 public class Shark extends SeaCreature {
-        static int color = 0xff0000; // can't be arsed to make this better. 
+        static Color color = Color.RED; // can't be arsed to make this better. 
         static String shape = "S";   // putting color and shape here for now.
 
     /**
