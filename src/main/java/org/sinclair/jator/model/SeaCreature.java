@@ -7,6 +7,7 @@ package org.sinclair.jator.model;
 
 import java.util.List;
 import java.util.Random;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -19,7 +20,8 @@ public class SeaCreature {
      */
     private static int nextID = 1;
 
-    private final int color;
+//    private final int color;
+    private final Color color;
     private final String shape;
     private final Sea sea;
     private SeaPosition pos;
@@ -44,7 +46,7 @@ public class SeaCreature {
      * @param color
      * @param shape
      */
-    public SeaCreature(Sea sea, SeaPosition pos, int spawnAge, int starveAge, Random random, int parent, int color, String shape) {
+    public SeaCreature(Sea sea, SeaPosition pos, int spawnAge, int starveAge, Random random, int parent, Color color, String shape) {
         this.sea = sea;
         this.pos = pos;
         this.age = 0;
@@ -106,7 +108,11 @@ public class SeaCreature {
         return SeaCreature.nextID;
     }
 
-    public int getColor() {
+    /**
+     *
+     * @return
+     */
+    public Color getColor() {
         return this.color;
     }
 
