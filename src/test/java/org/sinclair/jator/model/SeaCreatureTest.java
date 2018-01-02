@@ -7,6 +7,7 @@ package org.sinclair.jator.model;
 
 import java.util.List;
 import java.util.Random;
+import javafx.scene.paint.Color;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -25,7 +26,7 @@ public class SeaCreatureTest {
     private final int spawnAge;
     private final int parent;
     private final int starveAge;
-    private final int color;
+    private final Color color;
     private final String shape;
 
     public SeaCreatureTest() {
@@ -38,9 +39,9 @@ public class SeaCreatureTest {
         this.spawnAge = 5;
         this.parent = 7;
         this.starveAge = 99;
-        this.color = 0x0000ff;
+        this.color = Color.WHITE;
         this.shape = ".";
-        
+
     }
 
     @BeforeClass
@@ -149,8 +150,8 @@ public class SeaCreatureTest {
         System.out.println("getColor");
         SeaPosition position = new SeaPosition(2, 6, this.sea);
         SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent, this.color, this.shape);
-        int expResult = this.color;
-        int result = instance.getColor();
+        Color expResult = this.color;
+        Color result = instance.getColor();
         assertEquals(expResult, result);
     }
 
@@ -262,8 +263,8 @@ public class SeaCreatureTest {
         System.out.println("toString");
         SeaPosition position = new SeaPosition(7, 7, this.sea);
         SeaCreature instance = new SeaCreature(this.sea, position, this.spawnAge, this.starveAge, this.random, this.parent, this.color, this.shape);
-        instance.setCreatureID(4242);
-        String expResult = "0000004242 Parent: 0000000007 (7,7) Alive: true Age: 0 Spawn in: 5 Starve in: 99";
+        instance.setCreatureID(5151);
+        String expResult = "0000005151 Parent: 0000000007 (7,7) Alive: true Age: 0 Spawn in: 5 Starve in: 99";
         String result = instance.toString();
         assertEquals(expResult, result);
     }
@@ -391,7 +392,7 @@ public class SeaCreatureTest {
             i++;
         }
         System.out.println("move tried " + i + " times");
-        assertEquals(expResult,result);
+        assertEquals(expResult, result);
     }
 
     /**
@@ -420,7 +421,7 @@ public class SeaCreatureTest {
             i++;
         }
         System.out.println("randomPosition tried " + i + " times");
-        assertEquals(expResult,result);
+        assertEquals(expResult, result);
     }
 
 }
